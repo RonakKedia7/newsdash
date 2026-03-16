@@ -10,3 +10,8 @@
 * {
   font-family: "aeonik";
 }
+
+html,
+body {
+  overflow-x: hidden;
+}
