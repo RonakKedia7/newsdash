@@ -17,6 +17,10 @@ app.use(express.json());
 app.use("/api/articles", articlesRoute);
 app.use("/api/bookmarks", bookmarksRoute);
 
+app.get("/", (req, res) => {
+  res.send("NewsDash API running");
+});
+
 connectDB();
 
 const PORT = process.env.PORT;
