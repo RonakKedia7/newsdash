@@ -23,14 +23,6 @@ Backend API
 
 ---
 
-# ⚠️ Important Notice
-
-> ⚠️ **This project is NOT responsive yet.**
-> It is currently optimized **only for large laptop / desktop screens.**
-> Viewing on tablets or mobile devices may break the layout.
-
----
-
 # ✨ Features
 
 * 📰 Real-time news headlines
@@ -152,7 +144,6 @@ https://newsapi.org/docs
 
 # 🎯 Future Improvements
 
-* 📱 Responsive design
 * 🔍 News search
 * 🌙 Dark mode
 * 📊 Trending analytics
