@@ -18,33 +18,50 @@ const NewsSection = () => {
   const sectionRef = useRef();
 
   useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 85%",
-          toggleActions: "play none none reverse",
-        },
-      });
+    let ctx;
 
-      tl.from(".heading-left", {
-        x: -150,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power3.out",
-      }).from(
-        ".heading-right",
-        {
-          x: 150,
+    const setupAnimation = () => {
+      const isDesktop = window.innerWidth >= 768;
+
+      if (ctx) ctx.revert();
+
+      if (!isDesktop) return;
+
+      ctx = gsap.context(() => {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 85%",
+            toggleActions: "play none none reverse",
+          },
+        });
+
+        tl.from(".heading-left", {
+          x: -150,
           opacity: 0,
           duration: 0.8,
           ease: "power3.out",
-        },
-        "-=0.5",
-      );
-    }, sectionRef);
+        }).from(
+          ".heading-right",
+          {
+            x: 150,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power3.out",
+          },
+          "-=0.5",
+        );
+      }, sectionRef);
+    };
 
-    return () => ctx.revert();
+    setupAnimation();
+
+    window.addEventListener("resize", setupAnimation);
+
+    return () => {
+      if (ctx) ctx.revert();
+      window.removeEventListener("resize", setupAnimation);
+    };
   }, []);
 
   return (
@@ -82,7 +99,7 @@ const NewsSection = () => {
             <div className="md:col-span-5 flex flex-col gap-4 md:gap-6">
               {articles.slice(1).map((article, i) => (
                 <ArticleCard
-                  key={i}
+                  key={article.url || i}
                   article={article}
                   bookmarks={bookmarks}
                   toggleBookmark={toggleBookmark}
