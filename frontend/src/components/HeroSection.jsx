@@ -95,7 +95,7 @@ const HeroSection = () => {
             ref={mobileImage}
             src="/newspaper.png"
             alt="newspaper"
-            className="w-[78%] max-w-[420px] drop-shadow-2xl"
+            className="w-[78%] max-w-105 drop-shadow-2xl"
           />
         </div>
 

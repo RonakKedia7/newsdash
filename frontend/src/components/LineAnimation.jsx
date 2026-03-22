@@ -53,7 +53,7 @@ const LineAnimation = () => {
   return (
     <div
       ref={containerRef}
-      className="bg-slate-900 flex items-center justify-center px-4"
+      className="bg-slate-900 flex items-center justify-center md:px-3"
     >
       <svg
         onMouseMove={handleMouseMove}

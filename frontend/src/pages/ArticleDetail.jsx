@@ -59,7 +59,7 @@ const ArticleDetail = () => {
   return (
     <div
       ref={containerRef}
-      className="min-h-screen pt-2 md:pb-7 bg-slate-900 px-4 md:px-10 text-white flex justify-center"
+      className="min-h-screen pt-2 pb-7 bg-slate-900 px-4 md:px-10 text-white flex justify-center"
     >
       <div className="flex flex-col md:flex-row w-full max-w-350 gap-8 md:gap-12">
         {/* IMAGE */}

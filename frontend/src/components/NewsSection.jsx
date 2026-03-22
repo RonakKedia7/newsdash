@@ -52,7 +52,7 @@ const NewsSection = () => {
       ref={sectionRef}
       className="min-h-screen bg-slate-900 text-white px-4 sm:px-6 md:px-12 py-16 md:py-24"
     >
-      <div className="max-w-[1600px] mx-auto">
+      <div className="max-w-400 mx-auto">
         {/* HEADING */}
         <h2 className="font-black mb-10 md:mb-16 flex flex-wrap gap-3 md:gap-5 leading-none">
           <span className="heading-left text-4xl sm:text-6xl md:text-9xl">
