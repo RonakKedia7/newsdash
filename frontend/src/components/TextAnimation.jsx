@@ -2,51 +2,46 @@ import { useRef, useEffect } from "react";
 import gsap from "gsap";
 
 const TextAnimation = () => {
-  const text = useRef();
+  const textRef = useRef();
 
   useEffect(() => {
-    const letters = text.current.textContent.split("");
+    const el = textRef.current;
+    const letters = el.textContent.split("");
     const half = Math.floor(letters.length / 2);
 
-    let clutter = "";
+    el.innerHTML = letters
+      .map((letter, i) => {
+        const side = i < half ? "left" : "right";
+        return `<span class="${side} inline-block">${letter}</span>`;
+      })
+      .join("");
 
-    letters.forEach((letter, i) => {
-      const side = i < half ? "left" : "right";
-      clutter += `<span class="inline-block ${side}">${letter}</span>`;
+    const ctx = gsap.context(() => {
+      gsap.from(".left", {
+        y: 100,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.08,
+        ease: "power4.out",
+      });
+
+      gsap.from(".right", {
+        y: 100,
+        opacity: 0,
+        duration: 1,
+        stagger: -0.08,
+        ease: "power4.out",
+      });
     });
 
-    text.current.innerHTML = clutter;
-
-    const tl = gsap.timeline();
-
-    tl.from(".left", {
-      y: 120,
-      opacity: 0,
-      scale: 0.8,
-      filter: "blur(10px)",
-      duration: 1.2,
-      stagger: 0.1,
-      ease: "power4.out",
-    }).from(
-      ".right",
-      {
-        y: 120,
-        opacity: 0,
-        scale: 1.2,
-        filter: "blur(10px)",
-        duration: 0.8,
-        stagger: -0.1,
-        ease: "power4.out",
-      },
-      "<", // start at same time
-    );
+    return () => ctx.revert();
   }, []);
 
   return (
-    <div className="bg-yellow-300 p-3 flex items-center justify-center overflow-hidden">
+    <div className="bg-yellow-300 py-4 flex justify-center overflow-hidden">
       <h1
-        ref={text}
-        className="text-red-600 font-semibold text-9xl tracking-wider"
+        ref={textRef}
+        className="text-red-600 font-semibold text-3xl sm:text-5xl md:text-7xl xl:text-9xl tracking-wider text-center"
       >
         bookmarks
       </h1>

@@ -10,12 +10,12 @@ const categories = [
 
 const CategoryTabs = ({ category, setCategory }) => {
   return (
-    <div className="categories flex flex-wrap gap-4 mb-16">
+    <div className="flex gap-3 md:gap-4 mb-10 md:mb-16 overflow-x-auto no-scrollbar">
       {categories.map((cat) => (
         <button
           key={cat.id}
           onClick={() => setCategory(cat.id)}
-          className={`px-6 py-3 rounded-lg font-semibold transition cursor-pointer tracking-widest ${
+          className={`whitespace-nowrap px-4 md:px-6 py-2 md:py-3 rounded-lg font-semibold transition tracking-widest text-sm md:text-base ${
             category === cat.id
               ? "bg-yellow-300 text-slate-900"
               : "border border-white hover:bg-yellow-300 hover:text-slate-900"

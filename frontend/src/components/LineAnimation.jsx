@@ -1,19 +1,27 @@
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 
 const LineAnimation = () => {
   const pathRef = useRef();
+  const containerRef = useRef();
+  const [size, setSize] = useState({ width: 300, height: 200 });
 
-  const width = 1800;
-  const height = 350;
+  useEffect(() => {
+    const updateSize = () => {
+      const width = containerRef.current.offsetWidth;
+      const height = width * 0.2;
+      setSize({ width, height });
+    };
 
-  const initialPath = `M 10 ${height / 2} Q ${width / 2} ${height / 2 - 80} ${width - 10} ${height / 2}`;
+    updateSize();
+    window.addEventListener("resize", updateSize);
+    return () => window.removeEventListener("resize", updateSize);
+  }, []);
 
-  const move = (e) => {
-    const x = e.nativeEvent.offsetX;
-    const y = e.nativeEvent.offsetY;
+  const initialPath = `M 10 ${size.height / 2} Q ${size.width / 2} ${size.height / 2 - 50} ${size.width - 10} ${size.height / 2}`;
 
-    const path = `M 10 ${height / 2} Q ${x} ${y} ${width - 10} ${height / 2}`;
+  const move = (x, y) => {
+    const path = `M 10 ${size.height / 2} Q ${x} ${y} ${size.width - 10} ${size.height / 2}`;
 
     gsap.to(pathRef.current, {
       duration: 0.2,
@@ -21,6 +29,17 @@ const LineAnimation = () => {
       ease: "power3.out",
       overwrite: true,
     });
+  };
+
+  const handleMouseMove = (e) => {
+    move(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+  };
+
+  const handleTouchMove = (e) => {
+    const rect = e.target.getBoundingClientRect();
+    const x = e.touches[0].clientX - rect.left;
+    const y = e.touches[0].clientY - rect.top;
+    move(x, y);
   };
 
   const leave = () => {
@@ -32,12 +51,17 @@ const LineAnimation = () => {
   };
 
   return (
-    <div className="bg-slate-900 flex items-center justify-center">
+    <div
+      ref={containerRef}
+      className="bg-slate-900 flex items-center justify-center px-4"
+    >
       <svg
-        onMouseMove={move}
+        onMouseMove={handleMouseMove}
         onMouseLeave={leave}
-        width={width}
-        height={height}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={leave}
+        width={size.width}
+        height={size.height}
       >
         <path
           ref={pathRef}

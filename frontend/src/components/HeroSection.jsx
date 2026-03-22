@@ -9,64 +9,113 @@ const HeroSection = () => {
   const headline = useRef();
   const subtitle = useRef();
   const image = useRef();
-  useGSAP(() => {
-    const tl = gsap.timeline();
+  const mobileImage = useRef();
 
-    tl.from(headline.current, {
-      x: -300,
-      opacity: 0,
-      duration: 0.6,
-      ease: "back",
-    })
-      .from(
-        subtitle.current,
-        {
-          x: -200,
-          opacity: 0,
-          duration: 0.5,
-          ease: "power2.inOut",
-        },
-        "anim",
-      )
-      .from(
-        image.current,
-        {
-          x: 300,
-          opacity: 0,
-          duration: 0.5,
-          ease: "power2.inOut",
-        },
-        "anim",
-      );
-  });
+  useGSAP(
+    () => {
+      const tl = gsap.timeline();
+
+      // Desktop animation
+      tl.from(headline.current, {
+        x: -300,
+        opacity: 0,
+        duration: 0.6,
+        ease: "back.out(1.7)",
+      })
+        .from(
+          subtitle.current,
+          {
+            x: -200,
+            opacity: 0,
+            duration: 0.5,
+            ease: "power2.out",
+          },
+          "-=0.3",
+        )
+        .from(
+          image.current,
+          {
+            x: 300,
+            opacity: 0,
+            duration: 0.5,
+            ease: "power2.out",
+          },
+          "-=0.5",
+        );
+
+      // Mobile animation
+      gsap.from(mobileImage.current, {
+        scale: 0.85,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.out",
+        delay: 0.3,
+      });
+    },
+    { scope: container },
+  );
+
   return (
     <div
       ref={container}
-      className="relative h-[90vh] w-full flex overflow-hidden"
+      className="relative w-full overflow-hidden bg-slate-900"
     >
-      {/* Left Section */}
-      <div className="w-1/2 h-full p-12 flex flex-col justify-center gap-8 z-10 bg-slate-900">
-        <h1
-          ref={headline}
-          className="text-[6vw] leading-[1.05] font-bold text-red-600 bg-yellow-300 p-6 rounded-3xl"
-        >
-          Stay Ahead <br /> of the Headlines
-        </h1>
+      {/* ================= DESKTOP ================= */}
+      <div className="hidden md:flex h-[90vh] w-full">
+        {/* LEFT */}
+        <div className="w-1/2 h-full p-12 flex flex-col justify-center gap-8 z-10">
+          <h1
+            ref={headline}
+            className="text-[6vw] leading-[1.05] font-bold text-red-600 bg-yellow-300 p-6 rounded-3xl w-fit"
+          >
+            Stay Ahead <br /> of the Headlines
+          </h1>
 
-        <h4 ref={subtitle} className="text-5xl text-white max-w-xl">
-          Discover the latest stories from around the world.
-        </h4>
+          <h4 ref={subtitle} className="text-5xl text-white max-w-xl">
+            Discover the latest stories from around the world.
+          </h4>
+        </div>
+
+        {/* RIGHT */}
+        <div ref={image} className="w-1/2 bg-yellow-300 h-full"></div>
+
+        {/* FLOATING IMAGE */}
+        <img
+          src="/newspaper.png"
+          alt="newspaper"
+          className="absolute right-[12%] top-1/2 -translate-y-1/2 w-[50%] drop-shadow-2xl z-20"
+        />
       </div>
 
-      {/* Right Section */}
-      <div ref={image} className="w-1/2 bg-yellow-300 h-full"></div>
+      {/* ================= MOBILE ================= */}
+      <div className="md:hidden flex flex-col min-h-screen">
+        {/* IMAGE SECTION */}
+        <div className="h-[38vh] bg-yellow-300 flex items-center justify-center relative">
+          <img
+            ref={mobileImage}
+            src="/newspaper.png"
+            alt="newspaper"
+            className="w-[78%] max-w-[420px] drop-shadow-2xl"
+          />
+        </div>
 
-      {/* Floating Image */}
-      <img
-        src="/newspaper.png"
-        alt="newspaper"
-        className="absolute right-[12%] top-1/2 -translate-y-1/2 w-[50%] drop-shadow-2xl z-20"
-      />
+        {/* TEXT SECTION */}
+        <div className="flex-1 px-6 py-8 flex flex-col gap-6">
+          <h1
+            ref={headline}
+            className="text-3xl sm:text-4xl font-bold text-red-600 bg-yellow-300 p-4 rounded-xl w-fit leading-tight"
+          >
+            Stay Ahead <br /> of the Headlines
+          </h1>
+
+          <h4
+            ref={subtitle}
+            className="text-lg sm:text-xl text-white leading-relaxed"
+          >
+            Discover the latest stories from around the world.
+          </h4>
+        </div>
+      </div>
     </div>
   );
 };
